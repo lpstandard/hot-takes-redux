@@ -1,15 +1,38 @@
+import { auth, googleAuthProvider } from "../firebase";
+
 export const signIn = () => {
-  return {
-    type: 'SIGN_IN',
-    email: 'bill@example.com',
-    displayName: 'Bill Murray',
-    photoURL: 'http://www.fillmurray.com/200/200',
-    uid: 'firstUser'
+  return (dispatch) => {
+    dispatch({ type: 'ATTEMPTING_LOGIN' });
+    auth.signInWithPopup(googleAuthProvider).then(({ user }) => {
+      dispatch(signedIn(user));
+    });
   };
 };
 
 export const signOut = () => {
-  return {
+  return (dispatch) => {
+    dispatch({ type: 'ATTEMPTING_LOGIN' });
+    setTimeout(() => {
+      auth.signOut().then(() => {
+        dispatch(signedOut());
+      });
+    }, 2000);
     type: 'SIGN_OUT'
   };
 };
+
+export const signedIn = (user) => {
+  return {
+        type: 'SIGN_IN',
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        uid: user.uid
+      };
+};
+
+const signedOut = () => {
+  return {
+    type: 'SIGN_OUT'
+  }
+}
