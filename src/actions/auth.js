@@ -1,6 +1,6 @@
 import { auth, database, googleAuthProvider } from "../firebase";
 import pick from 'lodash/pick';
-import registerMessaging from "../request-messaging-permission";
+import registerMessaging from "./request-messaging-permission";
 
 const usersRef = database.ref('users');
 

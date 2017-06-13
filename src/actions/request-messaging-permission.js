@@ -5,8 +5,9 @@ export default function(user) {
   .then(() => messaging.getToken())
   .then((token) => {
     database.ref('users')
-            .child('users.uid')
+            .child(user.uid)
             .child('token')
+            .set(token);
   })
-  .catch(console.error());
+  .catch(console.error);
 }
